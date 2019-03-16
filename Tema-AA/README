@@ -1,0 +1,44 @@
+		Tema 2 Analiza Algoritmilor
+			Jorascu Marian Vladut
+
+Arhiva continne urmatoarele documente:
+	-Lucrarea propriu-zisa .pdf si sursa folosita(.tex)
+	-fisier Makefile
+	-fisierele sursa
+
+  Deoarece problema pe care am ales-o in urma unor discutii cu asistentul
+de la laborator si anume "Determinarea numerelor prime mai mici ca un N 
+dat" necesita o singura data de intrare N . Aceasta a fost modificata de
+fiecare data in program ( variabila corespunzatoare chiar asa se numeste
+N). Aceasta arhiva contine 5 fisiere sursa corespunzatoare fiecarui
+algoritm pe care l am implementat : Miller-Rabin , Fermat , Ciurul lui
+Eratostene , Ciurul lui Eratostene Optimizat si Algoritmul Iterativ,
+fiecare fisier sursa are o metoda static main in care se face exectiv
+rularea algoritmului pentru problema aleasa + alte functii statice
+ce reprezinta implementarea efectiva a algoritmilor. Iar pentru o valoare
+diferita a lui N am modificat in place.Toata aceasta testare realizata in
+fiecare metoda main , din clasele specifice algoritmilor , calculate
+si timpul de rulare si spatiul de memorie ocupat cu ajutorul unor functii
+deja existente in Java. 
+  De asemenea, fiecare algoritm a fost testat de 10 ori , pentru diferitele
+valori a lui N si au fost trecute in tabele , rezultatele cele mai bune
+din punct de vedere temporal pentru algoritmii 
+deterministi(+ Miller-Rabiin) si din 
+punct de vedere al celui mai mic numar de numere primie determinat 
+pentru Fermat. Acest lucru se realizeaza in clasa 
+Testeaza_Programatic .(Exceptie fiind algoritmul Iterativ nu a fost testat
+de 10 ori pentru N  de 10^7 si 10^8)
+  Makefile-ul contie regule de build si clean conform cerintei enuntului.
+  Programele pot fi rulate in linie de comanda fara a introduce un input anume
+N-ul pentru care se vor desfasura calculele pentru toti algoritmii este
+N = 2^6 (care se termina intr-un timp relativ scurt cu exceptie algoritmul
+iterativ). Pentru a testa pentru alte date N-ul trebuie modificat in program.
+  Pentru rularea unui algoritm avem 2 variante:
+  	1)Din linide de comanda , mai intai folosimm comanda make pentru a 
+care apeleaza regula de build pt toate clasele , apoi folosind comanda
+"java Eratostene" (sau numele oricarei alte clase) .
+	2)Importand fisierele .java , cu ajutorul unui IDE (Eclipse InteliJ) 
+
+
+	
+	

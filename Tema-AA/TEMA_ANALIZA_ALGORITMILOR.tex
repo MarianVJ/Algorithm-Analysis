@@ -1,0 +1,474 @@
+\documentclass[12pt,twoside]{article}  
+
+
+
+\usepackage{amsmath}
+\usepackage{courier}
+\usepackage[noend]{algpseudocode}
+%Pachete pentru grafuri in special
+\usepackage[unicode]{hyperref} 
+\usepackage{amsmath,epsfig,pifont,calc,pifont}	
+\usepackage{tikz}
+\usepackage{circuitikz}
+\usetikzlibrary{shapes,arrows,positioning}
+\usetikzlibrary{decorations.markings}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{enumitem}\setlist[description]{font=\textendash\‌​enskip\scshape\bfser‌​ies}
+\usepackage[romanian]{babel}
+\usepackage{listings}
+\usepackage{mathtools}
+\usepackage{amsmath}
+% Setari ale paginii / ndentarea la inceput de paragraf
+\setlength{\parindent}{3ex}
+\usepackage[]{algorithm2e}
+\newcommand\tab[1][1cm]{\hspace*{#1}}
+% Dimensiunea textului pe pagina 
+\setlength{\voffset}{-2cm}
+\setlength{\textheight}{23cm}  
+\setlength{\textwidth}{16cm}
+\setlength{\topmargin}{0cm}
+\setlength{\headsep}{1cm}
+
+% Margini
+\setlength{\oddsidemargin}{0.5cm}
+\setlength{\evensidemargin}{-0.3cm}
+\raggedbottom
+
+%Necesare; in caz contrar apare Contents, respectiv Figure
+\renewcommand{\contentsname}{Cuprins}
+\renewcommand{\figurename}{Figura}
+\renewcommand\refname{Bibliografie 'si Webografie}
+
+\usepackage{rom}
+\usepackage{amsmath}
+\numberwithin{figure}{section}
+
+\renewcommand{\baselinestretch}{1.2}
+\newcommand{\myindent}{\hspace*{3ex}}
+\newcommand{\quotes}[1]{``#1"}
+
+\hypersetup{
+    colorlinks=false,
+    pdfborder={0 0 0},
+}
+
+%Inseram varianta romaneasca a simbolurilor
+\input{symbols/romanianCircuitSymbols}
+
+%Incepem scrierea documentului efectiv
+\begin{document}
+
+%
+% Prima parte a temei
+%
+\title{Tema num'arul 1\\
+{\small - la disciplina Analiza Algoritmilor - }}
+\author{{\em Marian Vl'adu't Jor'ascu} \\
+  \\
+ Facultatea de Automatic'a si Calculatoare \\
+ Universitatea Politehnic'a din Bucure'sti \\
+ Grupa 325 CD anul II\\
+ jorascuvlad@gmail.com 
+ }
+\date{\today}  % sau puneti data explicit - va ramane fixata
+
+
+\maketitle
+
+\paragraph{Abstract}
+'In cadrul acestei teme am ales 5 algoritmi care rezolv'a problema ales'a la etapa intermediar'a .Am implementat mai 'intai algoritmii 'si am prezentat   pa'sii efectivi pe care ii urmeaz'a  , am calculat complexita'tile corespunz'atoare 'si 'in final am realizat un studiu comparativ pe baza rezultatelor ob'tinute de la testele pe care le-am efectuat pentru diferite date de intrare.
+\newpage
+\tableofcontents
+
+
+\newpage
+\section{Prezentarea temei}
+\subsection{Prezentarea problemei}
+\paragraph{}
+Problema pe care am ales s'a o rezolv este: Determinarea numerelor prime mai mici ca N.Algoritmii cu ajutorul c'arora am rezolvat aceast'a problem'a sunt: algoritmul Miller-Rabin, algoritmul lui Fermat, Ciurul lui Eratostene, Ciurul lui Eratostene Optimizat 'si Algoritmul Iterativ. Pentru primii doi am 'incercat s'a reduc num'arul cazurilor c\^and ace'stia 'intorc TRUE pentru un num'ar compus, analiz\^and ce efecte a avut aceast'a optimizare asupra timpului de rulare. Deoarece 'stim c'a singurul num'ar prim par este 2, voi 'incepe c'autarea de la 3 , iter\^and doar prin numerele impare.Criteriile de evaluare pentru solu'tiile luate 'in considerare sunt: timpul de rulare, spa'tiul de memorie ocupat 'si numarul de numere prime determinat. Ultimul criteriu este relevant doar pentru algoritmii probabilistici.Pentru diferite valori ale lui N voi rula fiecare program de 10 ori 'si voi trece 'intr-un tabel , cel mai bun rezultat (raportat la timpul de execu'tie)pentru fiecare dintre algoritmii implementa'ti.
+
+
+\subsection{Aplicatii preactice}
+Numerele prime au o mare importan'ta 'in domenii precum:
+
+\begin{description}[font=$\bullet$~\normalfont\scshape\color{black!50!black}]
+\item [Criptografia]
+\end{description}
+\paragraph{}
+Mul'ti algoritmi de criptare au 'in componen'ta lor numerele prime, dintre acestea cel mai cunoscut este RSA.
+Numerele prime sunt esen'tiale deoarece ace'sti alogoritmi de criptare se bazeaz'a pe faptul c'a este u'sor s'a 'inmul'tim dou'a numere prime mari 'si s'a afl'am rezultatul , pe c\^and este foarte costisitor sa facem opera'tia invers'a.Coplexitatea pentru 'inmul'tirea a doua numere prime mari (reprezentate pe n bi'ti) este $O(n \log n \log n)$, iar pentru  descompunerea num'arului rezultat folosind un algoritm puternic
+$ O(n^s)$ ( cu s constant, mare). Dificultatea factoriz'arii  pentru RSA 'in func'tie de dimensiunea cheii se poate observa din figura 1.1 . Dac'a avem un numar despre care 'stim ca este un produs a doua numere prime ,g'asirea lor nu poate fi realizat'a 'intr-un timpul util cu resursele actuale de calcul pe care le avem la dispozi'tie ca 'si utilizatori. Astfel, determinarea primalit'a'tii unui numar 'intr-un mod c\^at mai eficient 'si mai rapid st'a la baza securit'a'tii informa'tiilor 'si a unor algoritmi de criptare c\^at mai puternici
+
+\begin{figure}[!htb]
+\centering
+
+\includegraphics[width=18cm, height=8cm]{break_rsa}
+
+
+\caption{}
+     
+\end{figure}
+
+\newpage
+\begin{description}[font=$\bullet$~\normalfont\scshape\color{black!50!black}]
+\item [Generarea numerelor pseudoaleatoare]
+\end{description}
+
+
+\begin{description}[font=$\bullet$~\normalfont\scshape\color{black!50!black}]
+\item [Tabele de dispersie]
+\end{description}
+
+
+
+
+
+
+\section{Prezentarea 'si implementarea solu'tiilor}
+
+\subsection{Algoritmul de ridicare repetat'a la p'atrat}
+\paragraph{}
+Algoritmul de ridicare repetat'a la p'atrat 'si reducerii modulo m nu este un algoritm de testare a primalit'a'tii , dar este folosit de cei doi algoritmi probabilistici ( Fermat 'si Miller-Rabin) , de aceea este necesar'a 'si o scurt'a prezentare a sa. Aceast'a metod'a este eficient'a pentru valori mari ale lui m 'si n , fiind des utilizat'a 'in multe protocoale criptografice care implic'a exponen'tieri modulare.
+
+
+\begin{algorithm}
+\SetKwInOut{Input}{Input}
+\SetKwInOut{Output}{Output}
+ 
+\Input{numerele naturale $b$, $n$, $m$ }
+\Output{$b^n \mod m$} 
+
+$rezultat \gets 1$
+\\ $A \gets b$
+\\
+Cat Timp $(n > 0)$ executa operatiile:\\
+{
+\tab 1) Daca n este impar atunci $rezultat \gets A \cdot {rezultat} \mod {m}$ \\
+\tab 2)$A \gets  A^2 \mod m$ \\
+\tab 3)$n \gets n/2$ \\
+}
+
+returneaza rezultat \\
+\caption{Algoritmul de ridicare repetat'a la p'atrat}
+\end{algorithm}
+
+
+\newpage
+\subsection{Algoritmul lui Fermat}
+\paragraph{}
+'Inainte de prezentarea efectiv'a a algoritmului este necesar'a introducerea teoremei cu acela'si nume care st'a la baza acestuia:
+\paragraph{•}
+Mica Teorem'a a lui Fermat : Dac'a p este un num'ar prim si b este un num'ar 'intreg care nu este multiplu a lui p , atunci:
+\begin{equation}
+a^{p-1} \equiv 1 (\mod p)
+\end{equation}
+\paragraph{•}
+Fermat este un algoritm probabilistic de determinare a primalit'a'tii unui num'ar 'si se desf'a'soar'a astfel: Pentru un num'ar  natural n , a c'arui primalitate o cercet'am , alegem $b > 1$ 'si calcul'am $b^{n-1} \mod n$.Dac'a rezultatul nu este 1 , atunci num'arul este compus 'si b este martor Fermat al faptului c'a n este compus. Daca este egal cu 1 , atunci n este prim sau pseudoprim cu baza b. 
+\paragraph{•}
+Fie $b \geq 2$ un num'ar natural.Num'arul natural n se nume'ste pseudoprim cu baza b dac'a verific'a relatia : $b^n \equiv b$ ($mod $ $n$) , rela'tie echivalent'a cu $b^{n-1} \equiv 1$ ($mod $ $n$). Un num'ar natural compus n care verific'a aceast'a rela'tie pentru orice num'ar b relativ prim cu n , se nume'ste num'ar Carmichael. 
+\paragraph{•}
+Este clar c'a testul va spune numai "Probabil-Prim" pentru numere prime. Puterea unui asemenea test rezid'a 'ins'a 'in probabilitatea cu care testul se termin'a cu verdictul "Probabil-Prim" pentru numere compuse.
+\paragraph{•}
+Sa presupunem c'a la fiecare testare a unui num'ar Carmichael probabilitataea ca testul s'a 'intoarc'a verdictul COMPUS este 1/2. atunci repet\^and testul de 100 de ori, probabilitatea sa ob'tiem COMPUS este foarte apropiat'a de 1, ceea ce 'inseamna ca daca am ob'tinut de 100 de ori "Probabil-Prim", atunci probabilitatea ca numa'rul sa fie totu'si Carmichael este extrem de mic'a.'Ins'a nu putem fi siguri ca am eliminat in totalitate aceast'a posibilitate. Vom vedea ce efecte are asupra timpului de rulare aceasta marire a num'arului de itera'tii. Numarul de itera'tii poate fi considerat un "parametru de securitate". Cu cat t se mares'te cu at\^at probabilitatea s'a 'intoarc'a "TRUE" 'in cazul unui num'ar compus scade.Pentru implementarea propriu-zis'a am folosit o solu'tie existent'a \hyperlink{1}{[1]}.
+
+\begin{algorithm}
+\SetKwInOut{Input}{Input}
+\SetKwInOut{Output}{Output}
+ 
+\Input{Un num'ar $n > 2$ impar, un parametru de securitate t }
+\Output{un r'aspuns referitor la primalitatea lui n}
+
+Pentru i de la 1 la t executa urmatoarele opera'tii: \\
+\tab 1)Alege un aleator 'intreg b cu  $2 \leq b \leq n-2$ \\
+\tab 2)Calculeaz'a $r = b^{n-1} (\mod n)$ folosind algoritmul de la 2.1 \\
+\tab 3)Daca $r \neq 1$, atunci returneaza NUM'AR COMPUS 'si se opre'ste \\
+
+
+Returneaz'a NUM'AR PRIM \\
+\caption{Algoritmul lui Fermat}
+\end{algorithm}
+
+
+
+
+\subsection{Algoritmul Miller-Rabin}
+\paragraph{}
+Punctul slab al metodelor de testare a primalit'a'tii bazate pe mica teorem'a a lui Fermat, 'il reprezint'a numerele Carmichael ( numerele pseudoprime in raport cu o baza b ), deci numerele care se comport'a ca 'si numerele prime , conform teoremei.Algoritmul Miller-Rabin se bazeaza pe o proprietate mai puternic'a numit'a pseudoprimalitate 'in sens tare. 
+\paragraph{•}
+Fie $n > 2$ num'ar natural impar cu $n-1 =  2^st $ unde s,t sunt numere naturale cu t impar.Spunem ca n trece testul Miller pentru baza b , un num'ar natural prim cu n , dac'a este verificat'a una din urm'atoarele condi'tii:
+\begin{equation}
+b^t \equiv 1 (\mod n)
+\end{equation}
+
+sau
+\begin{equation}
+\exists 0 \leq j \leq s-1 , b^{2^j t} \equiv -1( \mod n)
+\end{equation}
+
+\paragraph{•}
+Spunem c'a un num'ar compus n este tare pseudoprim cu baza b unde $(b,n)=1$ daca el trece testul Miller pentru baza b. Eficient'a acestui algoritm in compara'tie cu Fermat reiese chiar din teorema enun't'at'a de Rabin : Daca n este un numar impar compus , acesta trece testul Miller-Rabin pentru cel mult $\frac{n-1}{4}$ baze b cu $1 \leq b \leq n-1$.Cu alte cuvinte probabilitatea ca acesta s'a treac'a testul este mai mic'a dec\^at $\frac{1}{4^k}$ , unde k reprezint'a num'arul de itera'tii(numarul de baze pentru care test'am proprietatea). Deci, numarul cazurilor 'in care Algoritul Miller-Rabin 'intoarce "TRUE" pentru un num'ar compus este de 4 ori mai mic  comparativ cu Algoritul lui Fermat.
+
+\paragraph{•}
+Solu'tia implementat'a alege baza 'in mod aleator, de aceea este nevoie de mai multe itera'tii (pentru eventualele numere tare pseudoprime ) , dar pentru datele de testare pe care le-am utilizat ar fi fost nevoie de o singura itera'tie 'si s'a aleg ca baz'a 2 ,3,5 sau 7 deoarece primul num'ar tare pseudoprim 'in raport cu una din aceste baze este 3215031751 ( iar numarul maxim pe care 'il testez 'in program este $10^8$). Pentru implementarea propriu-zis'a am folosit o solu'tie existent'a \hyperlink{2}{[2]}.Algoritmul se comport'a astfel:
+
+
+
+
+\begin{algorithm}
+\SetKwInOut{Input}{Input}
+\SetKwInOut{Output}{Output}
+ 
+\Input{Un num'ar $n > 2$ impar, un parametru de securitate r }
+\Output{un r'aspuns referitor la primalitatea lui n}
+
+1. Determin'a s 'si t astfel 'inc\^at $n-1 = 2^st$ cu t impar\\
+2. Pentru i de la 1 la r : \\
+\tab 2.1) Alege aleator un 'intreg  $2 \leq b \leq n-2$ \\
+\tab 2.2) Calculeaz'a $y = b^{t} (\mod n)$ folosind algoritmul de la subsectiunea 2.1 \\
+\tab 2.3) Dac'a $y = 1 $ sau $y = n-1$ atunci \\
+\tab \tab 2.3.1)Returneaz'a NUM'AR PRIM \\
+
+\tab 2.4)C\^at timp $t \neq n-1$ \\
+\tab \tab 2.4.1) $y \gets y^2 \mod n$ \\
+\tab \tab 2.4.2) $t \gets t^2$ \\
+\tab \tab 2.4.3) Dac'a $y = 1$ atunci:\\
+\tab \tab \tab 2.4.3.1) Returneaz'a NUM'AR COMPUS \\
+\tab \tab 2.4.4) Dac'a $y = n-1$ atunci: \\
+\tab \tab \tab 2.4.4.1) Returneaz'a NUM'AR PRIM \\
+
+\tab 2.5) Returneaz'a NUM'AR COMPUS
+
+
+\caption{Algoritmul Miller-Rabin}
+\end{algorithm}
+
+\subsection{Algoritmul Iterativ}
+\paragraph{}
+Algoritmul iterativ este cel mai simplu , dar 'si ineficient mod de a testa proprietatea de prim pentru un num'ar n . Am ales s'a implementez 'si acest algoritm pentru a eviden'tia c\^at de important'a este o optimizare pentru un algoritm cu complexitat epolinomial'a atunci c\^and avem date de intrare mari ,'si c\^at de vizibil'a este diferen'ta dintre $n$ 'si log(n). 
+Pentru orice num'ar algoritmul iterativ testeaza toate numerele de la 2 la jumatatea acestuia. Dac'a inputul ce trebuie testat nu se divide pentru niciunul din numerele de mai sus , atunci el este prim.
+
+
+
+\lstset{basicstyle=\footnotesize\ttfamily,breaklines=false}
+\lstset{framextopmargin=50pt}
+
+\begin{algorithm}
+\SetKwInOut{Input}{Input}
+\SetKwInOut{Output}{Output}
+ 
+\Input{Un num'ar $n > 2$ impar}
+\Output{un r'aspuns referitor la primalitatea lui n}
+
+\begin{lstlisting}
+pentru i de la 1 la [n/2]
+	daca n % i == 0
+   		returneaza numar compus
+
+returneaza numar prim
+\end{lstlisting}
+\caption{Algoritmul Iterativ}
+\end{algorithm}
+
+\newpage
+
+\subsection{Ciurul lui Eratostene}
+\paragraph{}
+Acesta este cel mai vechi test de primalitate cunoscut, ap'arut 'in jurul anului 240 'i.e.n El func'tioneaz'a corect pentru orice numere prime. Considerat un num'ar n, pentru a testa dac'a este prim, 'intocmim o list'a cu toate numerele naturale pornind de la 2 p\^an'a la n . Din ea se 'inl'atur'a toate numerele care sunt multiplii de numere prime  $ \leq {n}$. Cele care r'am\^an 'in list'a sunt toate numere prime.Algoritmul original parcurge toate numerele de la 2 la n , dar pantru ca singurul numar prim par este 2 , putem itera doar prin numerele impare 'incep\^and cu 3 .Pentru testarea propriu-zis'a am folosit o solu'tie existent'a \hyperlink{3}{[3]}:
+
+
+\begin{algorithm}
+\begin{lstlisting}
+public int getTheNumber(int n) {
+  int i, j, nr = 1;
+  for (i = 3; i <= n; i+=2) {
+    if (p[i] == 0) {
+      nr++;
+      for (j = i + i; j <= n; j += i) {
+        p[j] = 1;
+      }
+    }
+  }
+  return nr;
+}
+\end{lstlisting}
+\caption{Ciurul lui Eratostene}
+\end{algorithm}
+
+
+
+
+
+\subsection{Ciurul lui Eratostene Optimizat}
+\paragraph{}
+Prima optimizare ce se poate face pe Algoritmul original al Ciurului lui Eratostene este s'a nu mai lu'am 'in calcul numerele pare deoarece 'stim c'a singurul num'ar prim par este 2.Urmatoarea optimizare va fi marcarea multiplilor num'arului prim i de la i*i nu de la 2 * i deoarece orice num'ar prim compus multiplu de i mai mic decat i*i are un factor prim mai mic dec\^at i , 'si acel factor a fost marcat la unul din pa'sii anteriori.De asemenea, nu este necesar sa parcurgem numerele pana la n pentru a marca multiplii , ci p\^an'a la $\sqrt{n}$( astfel la ultima etap'a cea 'in care num'aram , nu vom mai lucra cu i ci cu 2*i+1). Ultima 'imbun'at'a'tire care este adus'a este aceea de a folosi c\^at mai pu'tin'a memorie.Cum pentru fiecare num'ar este necesar'a doar o informa'tie boolean'a,pe aceasta o putem 'tine 'intr-un bit , nu este necesar un char 'intreg.De asemenea,de'si 'ingreuneaz'a pu'tin citirea codului, sunt folosite foarte multe opera'ti pe bi'ti, acolo unde este posibil 'intruc\^at sunt mai rapide dec\^at opera'tiile normale. Pentru testarea propriu-zis'a am folosit o solu'tie existent'a \hyperlink{4}{[4]}:
+
+
+
+\begin{algorithm}
+\begin{lstlisting}
+public int getTheNumber(int n) {
+  int i, j, nr = 1;
+  for (i = 1; ((i * i) << 1) + (i << 1) <= n; i += 1) {      
+    if ((p[i >> 3] & (1 << (i & 7))) == 0) {
+      for (j = ((i * i) << 1) + (i << 1); (j << 1) + 1 <= n; j += (i << 1) + 1) {
+        p[j >> 3] |= (1 << (j & 7));
+      }
+    }
+  }
+  for (i = 1; 2 * i + 1 <= n; ++i)  
+       if ((p[i >> 3] & (1 << (i & 7))) == 0) 
+           nr++;
+  return nr;
+}
+\end{lstlisting}
+\caption{Ciurul lui Eratostene Optimizat}
+\end{algorithm}
+
+\newpage
+\section{Complexitate 'si testare}
+\subsection{Complexitate}
+\begin{description}[font=$\bullet$~\normalfont\scshape\color{black!50!black}]
+\item [Algoritmul lui Fermat]
+\end{description}
+\paragraph{•}
+'In cadrul algoritmului propriu-zis complexitatea este dat'a de functia de ridicare repetat'a la p'atrat care este $\Theta(\log n)$ multiplicat'a cu num'arul de itera'tii pentru alegerea diferitelor baze k , deci O($k \log n$), acest $\log n$ , provine din faptul c'a se calculeaza rezultatul lui $ b^n \mod m$, c\^at timp $n>0$, iar la fiecare pas se execut'a opera'tia $n \gets n/2$. Cum problema noastr'a este determinarea numerelor prime mai mici ca un n dat , si verific primalitatea doar pentru numerele impare (n/2 numere), complexitatea worst case este O($\frac{n}{2}  k \log n$) $\to$ O($n \log n$).
+
+\begin{description}[font=$\bullet$~\normalfont\scshape\color{black!50!black}]
+\item [Algoritmul Miller-Rabin]
+\end{description}
+\paragraph{•}
+'In cazul Miller-Rabin comparativ cu Fermat pe l\^ang'a complexitatea dat'a de func'tia de ridicare la p'atrat mai avem 'si complexitatea par'tii din program 'in care se testeaz'a dac'a num'arul de testat are proprietatea de tare pseudoprim care este 'in cazul cel mai defavorabil O($k\log n$), unde k este o constant'a ( num'arul de itera'tii), la care se adaug'a si complexitatea pentru descompunerea lui n-1 'in $n-1 = 2^s t$ (aceast'a descompunere se face o singur'a dat'a pentru fiecare num'ar ce trebuie testat) prin urmare :O($k\log n$) + O($k\log n$)  + O($\log n$) = O($(2k+1)\log n$). Algoritmul este aplicat pe toate cele n/2 numere , prin urmare complexitatea final'a este O($\frac{n}{2} (2k+1) \log n$) $\to$ O($n \log n$) .De'si complexitatea worst case pentru Miller-Rabin este mai mare decat complexitatea lui Fermat(compar\^and factorii de amplificare ai complexit'a'tii) , 'in practica se comport'a mult mai bine deoarece acesta nu executa num'arul total de itera'tii pentru $\frac{3}{4}$ din numerele Carmichael , ceea ce 'imbunat'a'te'ste timpul de rulare al programului.Doresc s'a men'tionez faptul c'a aceasta complexitate este doar pe implementarea algoritmului Miller-Rabin a'sa cum a fost expus'a 'si 'in subcapitolul anterior. 
+
+
+\begin{description}[font=$\bullet$~\normalfont\scshape\color{black!50!black}]
+\item [Algoritmul Iterativ]
+\end{description}
+\paragraph{•}
+Complexitatea pentru a testarea primalit'a'tii unui singur numar este un O($n/4$), acest $n/4$ provine din faptul c'a atunci cand testez primalitatea num'arului n , pornesc cu un i de la 3 (increment\^andu-l cu 2 unit'a'ti la fiecare pas), c\^at timp $i < n/2 $. Iar acesta este aplicat pentru toate cele n/2 numere impare. Prin urmare complexitatea worst case este O($\frac{n}{2} \frac{n}{4}$) = O($\frac{n^2}{8}$) $\to$
+O($n^2$).
+
+\begin{description}[font=$\bullet$~\normalfont\scshape\color{black!50!black}]
+\item [Ciurul lui Eratostene]
+\end{description}
+\paragraph{•}
+'In cazul implement'arii noastre a ciurului lui Eratostene am evitat testarea tuturor celor n numere, iter\^and doar prin numerele impare. Pentru a calcula complexitatea mai u'sor facem urm'atoarea nota'tie : $m  = \frac{n}{2}$. Daca ne uit'am in etapa de marcare( al doilea for) numerele sunt parcurse pe s'arite , iar num'arul de opera'tii este : $\frac{m}{2} + \frac{m}{3}  + \frac{m}{4} + ... + \frac{m}{n}$ = $m(\frac{1}{2} + \frac{1}{3} + \frac{1}{4} + .... + \frac{1}{n})$, iar aceast'a sum'a din parantez'a este $\log n$ ($\int_{1}^{n} \frac{1}{x} dx = ln(n)$). Deci baz\^andune pe observa'tiile de mai sus complexitatea este O($m \log n$). O alta observa'tie ce trebuie facut'a este aceea c'a noi marcam doar pornind de la valori prime( avem conditi'tie de intrare), s'arind peste multe valori . Astfel, suma noastr'a de frac'tii devine $\frac{1}{3} + \frac{1}{5} + \frac{1}{7} + \frac{1}{11} + ...+ \frac{1}{p}$ , unde p este cel mai mare num'ar prim mai mic dec\^at n-ul nostru, aceast'a suma fiind egal'a cu $\ln n \ln n$ conform \hyperlink{5}{[5]}. Deci complexitatea final'a pentru implementarea nostr'a este O($m \log \log n$) = O($\frac{n}{2} \log \log n$) $\to$ O($n \log \log n$) 
+
+\begin{description}[font=$\bullet$~\normalfont\scshape\color{black!50!black}]
+\item [Ciurul lui Eratostene Optimizat]
+\end{description}
+\paragraph{•}
+Conform cu denumirea sa acest algoritm are anumite 'imbun'ata'tiri comparativ cu varianta prezentat'a anterior, ele fiind at\^at asupra numarului de opera'tii executate c\^at 'si asupra memoriei ocupate, dupa cum au fost prezentat in sec'tiunea 2.6. Singura optimizare care are o implica'tie direct'a asupra complexit'a'tii este cea 'in care nu mai marc'am multiplii numerelor prime pana la n , ci p\^an'a la $\sqrt{n}$. Astfel Complexitatea pentru Ciurul lui Eratostene Optimizat este O($\frac{n}{2} \log \log \sqrt{n}$) $\to$ O($n \log \log \sqrt{n}$).
+
+
+\subsection{Testare}
+\paragraph{•}
+Pentru implementarea algoritmilor prezenta'ti anterior am utilizat un limbaj de nivel 'inalt 'si anume Java.
+Dup'a cum am precizat 'si 'in etapa intermediar'a a temei voi eviden'tia comportamentul algoritmilor 'si rezultatele pe care le-am ob'tinut 'in urma test'arii, cu ajutorul unor tabele , 'in locul graficelor.Datele de intrare sunt reprezentate de valori ale lui N . Vor exista 4 tabele corespunz'atoare pentru fiecare valoare 'in parte ( $10^5$,$10^6$, $10^7$,$10^8$) .Am ales aceast'a metod'a de reprezentare deoarece consider c'a in contextul problemei alese ( Determinarea numerelor prime mai mici ca un N dat) sunt mai usor de observat performan'tele 'in raport cu complexitatea( WorstCase) a fiec'aruia , prezent\^and la final avantajele si dezavantajele lor 'in contextul problemei actuale dar 'si 'in cazul altor probleme.  Urm'atoarele date au fost  ob'tinute pe un procesor Intel Core i7 2.7GHz.Fiecare algoritm a fost testat de 10 ori(mai pu'tin algoritmul iterativ pentru N = $10^7$ 'si $10^8$) , 'in mod programatic 'in fi'sierele surs'a, pentru fiecare N 'in parte , 'si au fost adaugate 'in tabele cele mai bune rezultate (de timp). 
+\paragraph{•}
+'Inainte de vizualizarea rezultatelor test'arii doresc sa fac precizarea c'a am realizat calculul timpului de execu'tie 'si a memoriei utilizate cu ajutorul unor func'tii deja implementate 'in Java. Rezultatele ob'tinute privind memoria sunt corecte la o analiz'a calitativ'a. Singura excep'tie 'in care functia de determinare a memoriei utilizate nu are comportamentul dorit este la testarea algoritmului Miller-Rabin pentru N = $10^7$ 'si N = $10^8$ c\^and num'arul itera'tiilor este 50.Cel mai probabil aceast'a neconcordan'ta( de'si memoria ar trebui s'a creasc'a ea scade) pe baza numa'rului mare de apeluri de fun'ctii 'si a modului efectiv 'in care JVM-ul elibereaz'a memoria . 
+
+\begin{figure}
+\centering
+\includegraphics[width=14cm, height=10cm]{tabel1}
+\caption{}   
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=14cm, height=10cm]{tabel2}
+\caption{}   
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=14cm, height=10cm]{tabel3}
+\caption{}   
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=14cm, height=10cm]{tabel4}
+\caption{}   
+\end{figure}
+
+\newpage
+\subsection{Interpretarea Datelor}
+\paragraph{•}
+'In ceea ce prive'ste algoritmii probabilistici ( Fermat si Miller-Rabin) , de'si factorul de amplificare pentru complexitatea worst case a lui Fermat este mai mic dec\^at cel a lui Miller-Rabin(de doua ori mai mic) , pentru date de intreare ce dep'a'sesc $10^6$ ,cei doi au timpii de rulare foarte asem'an'atori deoarece num'arul numerelor Carmichael cre'ste iar cel de-al doilea depisteaz'a un procent mult mai mare (3/4 dup'a cum am demonstrat 'in subsec'tiunea de implementare). Astfel nu se  vor mai executa toate itera'tiile , timpul de executare 'imbun'ata'tindu-se(acest lucru se poate obersva si analiz\^and tabelele).Prin urmare,atunci c\^and vrem s'a verific'am dac'a un num'ar este prim , pentru date mai mici de $10^6$ putem folosi 'si Fermat , altfel vom utilizat cel de-al doilea algoritm deoarece nu doar c'a are o precizie mult mai buna 'in detectarea numerelor pseudoprime(compuse) , dar sunt detectate 'si mult mai rapid (pentru mai pu'tine baze/itera'tii). 
+\paragraph{•}
+Observ'am de asemenea faptul c'a Fermat pentru un num'ar de iteratii mic(5) nu are o precizie de $100 \%$ 'in ceea ce prive'ste rezultatul final ob'tinut , dar cu c\^at marim num'arul itera'tiilor, num'arul cazurilor 'in care 'intoarce TRUE pentru un num'ar compus se reduce. Iar pentru un numar de itera'tii destul de mare (50) am ob'tinut pentru N = $10^5$ 'si N = $10^6$ datele de intrare num'arul exact de numere prime(suntem siguri de acest rezultat prin compara'tie cu rezultatele de la algoritmii determini'sti).Pentru N mai mare de $10^6$ , K = 50 de itera'tii nu este suficient pentru a determina exact numarul de numere prime (mai mici decat $10^7$ 'si $10^8$).In particular am testat fermat pentru 100 de itera'tii , caz 'in care am ob'tinut rezultatul asteptat. Prin urmare , putem considera acest num'ar al itera'tiilor un factor de securitate, cu c\^at acesta creste , cu at\^at scade posibilitatea de a returna un rezultat gre'sit 'in testarea unui num'ar. Din p'acate acest factor de securitate se reflect'a 'si 'in timpul de executie dup'a cum reiese 'si din tabele, timpul de rulare fiind proportional cu num'arul itera'tiilor.
+\paragraph{•}
+C\^at despre ceilal'ti 3 algoritmi determini'sti se comporta la fel pentru toate datele de intrare. Dac'a 'in zona de implementare nu erau foarte vizibile 'imbuna'ta'tirile aduse Ciurului lui Eratostene, acestea se pot vizualiza foarte usor 'in zona de testare.Diferen'tele exista at\^at pentru timpul de rulare , dar mai ales pentru memoria utilizat'a, acestea sunt din ce 'in ce mai evidente pe m'asur'a ce m'arim N-ul.De asemenea, din aceste tabele se poate observa mult mai u'sor c\^at de mare este timpul de rulare atunci cand 'in complexitatea unui algoritm este n 'si nu $\log n$ pentru date de intrare mari , fie acea complexitate $\log n$ 'inmul'tit'a cu un K de dimensiuni mari. 
+
+\newpage
+\section{Concluzii}
+\paragraph{•}
+Dup'a ce am analizat to'ti algoritmii 'in sec'tiunile anterioare putem concluziona astfel: 'In cadrul problemei actuale ( determinarea numerelor prime mai mici ca un N dat) cele mai bune performan'te dac'a privim at\^at complexit'a'tile , c\^at 'si timpii de rulare , sunt ob'tinute de Ciurul lui Eratostene , aceast rezultat fiind oarecum de a'steptat , 'intruc\^at principala "'intrebuin'tare" a acestui algoritm este s'a rezolve problema pe care am ales-o pentru tem'a. Daca 'ins'a am privii comportamentul algoritmilor prezenta'ti 'in contextul altei probleme cum ar fi "Testarea primalit'a'tii unui numar X citit de la tastatur'a" , 'incerc\^and sa solu'tionam problema cu Ciurul lui Eratostene am ob'tine rezultate mult mai slabe comparativ cu Miller-Rabin sau Fermat(acesta este problema pentru care se potrivesc cel mai bine) .Cei doi  vor rezolva problema  'in O(k$\log n$), 'in schimb ciurul lui Eratostene va execut'a acela'si num'ar de pa'si pentru a vedea daca X este prim sau nu('in O(n $\log \log n$)) .
+\paragraph{•}
+Dac'a ar trebui sa alegem dintre cei doi algoritmi probabilistici avem doua op'tiuni : Pentru numere mai mici de $10^6$ putem folosim 'si algoritmul lui Fermat,cu condi'tia s'a avem un factor de securitate destul de mare , iar pentru valori mai mari folosim Miller-Rabin din dou'a motive foarte importante : 1. frecvent'a de apari'tie a numerelor compuse este din ce in ce mai mare 2. Acesta detecteaza un procent de $\frac{3}{4}$ din numerele pseudoprime, dupa o singur'a itera'tie (nedepinz\^and de baza aleas'a 'in mod aleator), singurele numere care creeaza probleme acestui algoritm sunt cele cu proprietatea de tare pseudoprime 'in raport cu o baz'a b( doar $\frac{1}{4}$ din numerele pseudoprime au aceasta proprietate), putem rezolva acest dezavantaj aleg\^and num\^ar de itera'tii suficient de mare. 
+
+\newpage
+\addcontentsline{toc}{section}{Bibliografie}
+\begin{thebibliography}{9}
+ 
+
+
+\bibitem{}
+Algoritmul lui Fermat:
+\hypertarget{1}{}
+\href{http://www.geeksforgeeks.org/primality-test-set-2-fermet-method/}{http://www.geeksforgeeks.org/primality-test-set-2-fermet-method/}
+
+
+\bibitem{}
+Algoritmul Miller-Rabin:
+\hypertarget{2}{}
+\href{http://www.geeksforgeeks.org/primality-test-set-3-miller-rabin/}{http://www.geeksforgeeks.org/primality-test-set-3-miller-rabin/}
+
+
+
+
+
+
+
+\bibitem{}
+Ciurul lui Eratostene:
+\hypertarget{3}{}
+\href{http://www.infoarena.ro/job\_detail/153303?action=view-source}{http://www.infoarena.ro/job\_detail/153303?action=view-source}
+
+\bibitem{}
+Ciurul lui Eratostene 'Imbun'at'a'tit:
+\hypertarget{4}{}
+\href{http://www.infoarena.ro/ciurul-lui-eratostene}{http://www.infoarena.ro/ciurul-lui-eratostene}
+
+
+\bibitem{}
+Meissel-Mertens constant:
+\hypertarget{5}{}
+\href{http://mathworld.wolfram.com/MertensConstant.html}{http://mathworld.wolfram.com/MertensConstant.html}
+
+\bibitem{}
+Introducere 'in Criptografie:
+\hypertarget{6}{}
+\href{http://www.aut.upt.ro/~bgroza/Slides/Carte\_Intro\_Cripto.pdf}{http://www.aut.upt.ro/~bgroza/Slides/Carte\_Intro\_Cripto.pdf}
+
+
+\bibitem{}
+Introducere 'in Criptografie 2:
+\hypertarget{6}{}
+\href{http://math.ucv.ro/~dan/courses/carte\_Alg.pdf}{http://math.ucv.ro/~dan/courses/carte\_Alg.pdf}
+
+
+
+
+
+
+
+\end{thebibliography}
+
+\end{document}
+
+
+\end{document}
